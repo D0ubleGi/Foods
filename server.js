@@ -509,7 +509,7 @@ socket.emit('reciptebi',sortedRecipess);
 socket.on('addnew', async (recs) => {
   try {
  const imgBuffer = recs.img;  
-    const mimeType = recs.imgtype; 
+    const mimeType = recs.imgstype; 
     console.log(mimeType,recs.imgstype);
  const fileName = `${recs.id}_${Date.now()}.${mimeType.split('/')[1]}`;
   const imageUrl = await uploadToS3(fileName, imgBuffer, mimeType);
