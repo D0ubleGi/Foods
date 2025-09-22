@@ -353,7 +353,7 @@ socket.on('sear', async (term, id) => {
     console.error(err);
   }
 });
-socket.on('searr', async (term, id) => {
+socket.on('searr', async (term,user, id) => {
   try {
     const result = await Recipt.find({
       id: id,
@@ -361,7 +361,7 @@ socket.on('searr', async (term, id) => {
     });
      let obji=[];
 for (const element of result) {
-  const a = await Favs.findOne({id:element.idd});
+  const a = await Favs.findOne({id:element.idd,user:user});
   if(a){
 obji.push({
   id:element.id,
