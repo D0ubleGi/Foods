@@ -22,8 +22,7 @@ async function uploadToS3(fileName, fileBuffer, mimeType) {
     Bucket: process.env.S3_BUCKET_NAME,
     Key: fileName,
     Body: fileBuffer,
-    ContentType: mimeType,
-    ACL: 'public-read' 
+    ContentType: mimeType
   };
 
    try {
