@@ -103,7 +103,7 @@ const TasksSchemaa = new mongoose.Schema({
   const RecipeSchema = new mongoose.Schema({
     id: {type: String, required: true},
     idd: {type: String, required: true,unique:true},
-    img: {type: Buffer, required: true},
+    img: {type: String, required: true},
     imgtype: {type: String, required:true},
     title: {type: String, required: true},
     subtitle: {type: String, required: true},
