@@ -506,14 +506,17 @@ socket.emit('reciptebi',sortedRecipess);
 }
 
 });
-console
 socket.on('addnew', async (recs) => {
   try {
-    const imgBuffer = Buffer.from(recs.img, 'base64'); 
+ const imgBuffer = recs.img;  
+    const mimeType = recs.imgtype; 
+ const fileName = `${recs.id}_${Date.now()}.${mimeType.split('/')[1]}`;
+  const imageUrl = await uploadToS3(fileName, imgBuffer, mimeType);
+
     const newi = new Recipt({
       id: recs.id,
       idd: recs.idd,
-      img: imgBuffer,
+      img: imageUrl,
       imgtype: recs.imgstype,
       title: recs.title,
       subtitle: recs.subtitle,
