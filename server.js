@@ -628,7 +628,7 @@ socket.emit('senkk',usi.email,user,useri,title);
 app.post('/delete', async (req, res) => {
   const { email, responsee, title, user, useri, id } = req.body;
 if(responsee==='no'){
-con
+console.log('no');
 }
 else{console.log(responsee,user,useri);
 
