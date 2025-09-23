@@ -8,6 +8,7 @@ const { type } = require('os');
 const { buffer } = require('stream/consumers');
 const axios = require("axios");
 const AWS = require('aws-sdk');
+const { console } = require('inspector');
 require('dotenv').config();
 
 
@@ -786,6 +787,16 @@ console.log('message deleted!');
 const comm = await Comments.find({id:id});
 socket.join(id);
 io.to(id).emit('koment',comm);
+});
+
+socket.on('wash',async (id,user)=>{
+  const a = await Recipes.findOne({id:id});
+socket.emit('shlis',id,user,a.name);
+});
+
+socket.on('washala',async (id,user)=>{
+await Recipes.deleteOne({id:id,user:user});
+console.log(`${user} removed list!`);
 });
 
 });
