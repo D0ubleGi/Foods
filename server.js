@@ -545,7 +545,8 @@ obj.push({
   total:t.length
 });
 }
-socket.emit('ttlus',obj);
+socket.join(recs.id);
+io.to(recs.id).emit('ttlus',obj);
 });
 
 socket.on('desk',async(id,html)=>{console.log(id);
