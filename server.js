@@ -636,6 +636,7 @@ const obj = users.map(u => ({ email: u.email, useri: u.user }));
   await Recipt.deleteOne({idd:id});
   await Favs.deleteMany({id:id});
   await Rate.deleteMany({id:id});
+  await Comments.deleteMany({id:id});
 
   io.emit('daio',id);
 
@@ -797,6 +798,8 @@ socket.emit('shlis',id,user,a.name);
 socket.on('washala',async (id,user)=>{
 await Recipes.deleteOne({id:id,user:user});
 console.log(`${user} removed list!`);
+const taskss = await Recipes.find({user:user});
+socket.emit('loaded', taskss);
 });
 
 });
