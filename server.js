@@ -535,10 +535,11 @@ console.log(imageUrl, "-----",recs.img);
   }
   const co = await Recipt.find({id:recs.id});
   io.to(recs.id).emit('reciptebi',co);
-  const a = await Recipes.find({id:id});
+
+const a = await Recipes.find({id:recs.id});
 let obj=[];
 for(const element of a){
-const t = await Recipt.find({id:id,user:element.user});
+const t = await Recipt.find({id:recs.id,user:element.user});
 obj.push({
   user:element.user,
   total:t.length
