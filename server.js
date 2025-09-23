@@ -802,6 +802,19 @@ const taskss = await Recipes.find({user:user});
 socket.emit('loaded', taskss);
 });
 
+socket.on('lusers',async (id,user)=>{
+const a = await Recipes.find({id:id});
+let obj=[];
+for(const element of a){
+const t = await Recipt.find({id:id,user:element.user});
+obj.push({
+  user:element.user,
+  total:t.length
+});
+}
+socket.emit('ttlus',obj);
+});
+
 });
 server.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
