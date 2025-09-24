@@ -10,10 +10,6 @@ const axios = require("axios");
 const AWS = require('aws-sdk');
 require('dotenv').config({ path: './.env' });
 
-app.get("/", (req, res) => {
-  console.log("Root route hit!");
-  res.send("Hello World!");
-});
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
