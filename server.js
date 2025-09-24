@@ -676,6 +676,8 @@ socket.emit('senkk',usi.email,user,useri,title);
 app.post('/delete', async (req, res) => {
   const { email, responsee, title, user, useri, id } = req.body;
 if(responsee==='no'){
+  const obj = users.map(u => ({ email: u.email, useri: u.user }));
+  console.log(responsee,obj,user,useri,hoi.title);
      await axios.post(
         'https://beckend2.onrender.com/valid',
         {response: responsee, object: obj,user:user, useri:useri, title:hoi.title} 
