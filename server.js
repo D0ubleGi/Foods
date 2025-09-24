@@ -550,11 +550,8 @@ console.log(imageUrl, "-----",recs.img);
 
     let ob=[];
     const a = await Recipes.find({id:recs.id});
-    console.log('length:',a.length);
     for(const element of a){
-     console.log(element.user);
       const b = await User.findOne({user:element.user});
-      console.log(b.email,b.user);
       ob.push({
         email:b.email,
         user:b.user,
@@ -647,7 +644,13 @@ socket.on('dell', async (id,user)=>{
 const users = await User.find({ user: { $in: hui.map(el => el.user) } });
 const obj = users.map(u => ({ email: u.email, useri: u.user }));
 
-await Recipt.deleteMany({idd:id});
+  const fileNameFromUrl = hai.img.split('/').pop();
+await deleteFromS3(fileNameFromUrl);
+
+  await Recipt.deleteOne({idd:id});
+  await Favs.deleteMany({id:id});
+  await Rate.deleteMany({id:id});
+  await Comments.deleteMany({id:id});
 console.log('Deleted');
 socket.emit('delled',hai.title,obj,hai.idd);
 
