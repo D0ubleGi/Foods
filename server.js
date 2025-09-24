@@ -546,7 +546,7 @@ console.log(imageUrl, "-----",recs.img);
     socket.emit('aem',ob);
   } 
   catch (err) {
-    console.error('Error saving recipe:', err);
+    console.error('Error saving recipe:', err);console.log('.');
   }
   const co = await Recipt.find({id:recs.id});
   io.to(recs.id).emit('reciptebi',co);
