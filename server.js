@@ -530,7 +530,20 @@ console.log(imageUrl, "-----",recs.img);
     });
     await newi.save();
     console.log('Saved:', recs.id);
-  } catch (err) {
+
+    let ob=[];
+    const a = await Recipes.find({id:recs.id});
+    for(const element of a){
+      const b = await User.find({user:element.user});
+      ob.push({
+        email:b.email,
+        user:b.user,
+        titl:recs.title
+      });
+    }
+    socket.emit('aem',ob);
+  } 
+  catch (err) {
     console.error('Error saving recipe:', err);
   }
   const co = await Recipt.find({id:recs.id});
@@ -628,9 +641,13 @@ socket.emit('senkk',usi.email,user,useri,title);
 app.post('/delete', async (req, res) => {
   const { email, responsee, title, user, useri, id } = req.body;
 if(responsee==='no'){
-console.log('no');
+     await axios.post(
+        'https://beckend2.onrender.com/valid',
+        {response: responsee, object: obj,user:user, useri:useri, title:hoi.title} 
+      );
 }
-else{console.log(responsee,user,useri);
+else{
+  console.log(responsee,user,useri);
 
     const hoi = await Recipt.findOne({idd:id});
     const hui = await Recipes.find({id:hoi.id});
