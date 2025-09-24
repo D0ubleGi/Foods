@@ -676,6 +676,10 @@ socket.emit('senkk',usi.email,user,useri,title);
 app.post('/delete', async (req, res) => {
   const { email, responsee, title, user, useri, id } = req.body;
 if(responsee==='no'){
+    const hoi = await Recipt.findOne({idd:id});
+    const hui = await Recipes.find({id:hoi.id});
+const usernames = hui.map(el => el.user);
+const users = await User.find({ user: { $in: usernames } });
   const obj = users.map(u => ({ email: u.email, useri: u.user }));
   console.log(responsee,obj,user,useri,hoi.title);
      await axios.post(
