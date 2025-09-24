@@ -654,6 +654,18 @@ await deleteFromS3(fileNameFromUrl);
 console.log('Deleted');
 socket.emit('delled',hai.title,obj,hai.idd);
 
+const a = await Recipes.find({id:hai.id});
+let objn=[];
+for(const element of a){
+const t = await Recipt.find({id:hai.id,user:element.user});
+objn.push({
+  user:element.user,
+  total:t.length
+});
+}
+socket.join(hai.id);
+io.to(hai.id).emit('ttlus',objn);
+
 });
 
 
@@ -692,6 +704,18 @@ await deleteFromS3(fileNameFromUrl);
   await Favs.deleteMany({id:id});
   await Rate.deleteMany({id:id});
   await Comments.deleteMany({id:id});
+
+  const a = await Recipes.find({id:hoi.id});
+let objn=[];
+for(const element of a){
+const t = await Recipt.find({id:hoi.id,user:element.user});
+objn.push({
+  user:element.user,
+  total:t.length
+});
+}
+socket.join(hoi.id);
+io.to(hoi.id).emit('ttlus',objn);
 
   io.emit('daio',id);
 
