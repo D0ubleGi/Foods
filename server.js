@@ -8,7 +8,6 @@ const { type } = require('os');
 const { buffer } = require('stream/consumers');
 const axios = require("axios");
 const AWS = require('aws-sdk');
-const { console } = require('inspector');
 require('dotenv').config({ path: './.env' });
 
 app.get("/", (req, res) => {
