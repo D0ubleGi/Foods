@@ -1,4 +1,4 @@
-require('dotenv').config({ path: './.env' });
+
 const express = require('express');
 const http = require('http');
 const cors = require('cors');
@@ -9,7 +9,8 @@ const { buffer } = require('stream/consumers');
 const axios = require("axios");
 const AWS = require('aws-sdk');
 const { console } = require('inspector');
-require('dotenv').config();
+require('dotenv').config({ path: './.env' });
+
 
 
 const s3 = new AWS.S3({
@@ -43,6 +44,10 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 const server = http.createServer(app, {
   maxHeaderSize: 1024 * 1024 * 50
+});
+app.get("/", (req, res) => {
+  console.log("Root route hit!");
+  res.send("Hello World!");
 });
 
 const MONGO_URI = process.env.MONGO_URI || 'your-backup-uri-here';
