@@ -554,7 +554,6 @@ console.log(imageUrl, "-----",recs.img);
     for(const element of a){
      console.log(element.user);
       const b = await User.find({user:element.user}); 
-      
       console.log(b.email,b.user);
       ob.push({
         email:b.email,
