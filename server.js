@@ -11,7 +11,16 @@ const AWS = require('aws-sdk');
 const { console } = require('inspector');
 require('dotenv').config({ path: './.env' });
 
+app.get("/", (req, res) => {
+  console.log("Root route hit!");
+  res.send("Hello World!");
+});
 
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION
+});
 
 async function uploadToS3(fileName, fileBuffer, mimeType) {
   const params = {
@@ -39,10 +48,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 const server = http.createServer(app, {
   maxHeaderSize: 1024 * 1024 * 50
 });
-app.get("/", (req, res) => {
-  console.log("Root route hit!");
-  res.send("Hello World!");
-});
+
 
 const MONGO_URI = process.env.MONGO_URI || 'your-backup-uri-here';
 const PORT = process.env.PORT || 3000;
