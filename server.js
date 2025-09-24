@@ -535,8 +535,10 @@ console.log(imageUrl, "-----",recs.img);
     const a = await Recipes.find({id:recs.id});
     console.log('length:',a.length);
     for(const element of a){
-     
-      const b = await User.find({user:element.user}); console.log(b.email,b.user);
+     console.log(element.user);
+      const b = await User.find({user:element.user}); 
+      
+      console.log(b.email,b.user);
       ob.push({
         email:b.email,
         user:b.user,
