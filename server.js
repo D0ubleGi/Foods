@@ -17,6 +17,22 @@ const s3 = new AWS.S3({
   region: process.env.AWS_REGION
 });
 
+async function deleteFromS3(fileName) {
+  const params = {
+    Bucket: process.env.S3_BUCKET_NAME,
+    Key: fileName
+  };
+
+  try {
+    const data = await s3.deleteObject(params).promise();
+    console.log(`✅ S3 delete called for: ${fileName}`);
+  } catch (err) {
+    console.error('❌ Error deleting file:', err);
+  }
+}
+
+
+
 async function uploadToS3(fileName, fileBuffer, mimeType) {
   const params = {
     Bucket: process.env.S3_BUCKET_NAME,
@@ -36,6 +52,7 @@ async function uploadToS3(fileName, fileBuffer, mimeType) {
 }
 
 module.exports = { uploadToS3 };
+
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -665,6 +682,9 @@ const obj = users.map(u => ({ email: u.email, useri: u.user }));
         'https://beckend2.onrender.com/valid',
         {response: responsee, object: obj,user:user, useri:useri, title:hoi.title} 
       );
+
+      const fileNameFromUrl = hoi.img.split('/').pop();
+await deleteFromS3(fileNameFromUrl);
 
   await Recipt.deleteOne({idd:id});
   await Favs.deleteMany({id:id});
