@@ -921,7 +921,7 @@ socket.emit('ttlus',obj);
 
 socket.on('detail',async (id,idd,user,details)=>{
 const hai = await Details.findOne({idd:idd});
-console.log('ipova?-',hai.length);
+console.log('ipova?-',hai);
 if(!hai){
 const haia = new Details({
   id:id,
