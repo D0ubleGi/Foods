@@ -920,6 +920,8 @@ socket.emit('ttlus',obj);
 });
 
 socket.on('detail',async (id,idd,user,details)=>{
+const hai = await Details.findOne({idd:idd});
+if(!hai){
 const haia = new Details({
   id:id,
   idd:idd,
@@ -927,6 +929,7 @@ const haia = new Details({
   details:details
 });
 await haia.save();
+}
 console.log('Details saved!');
 });
 
