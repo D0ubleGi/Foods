@@ -661,6 +661,7 @@ await deleteFromS3(fileNameFromUrl);
   await Favs.deleteMany({id:id});
   await Rate.deleteMany({id:id});
   await Comments.deleteMany({id:id});
+  await Details.deleteOne({idd:id});
 console.log('Deleted');
 socket.emit('delled',hai.title,obj,hai.idd);
 
@@ -720,6 +721,7 @@ await deleteFromS3(fileNameFromUrl);
   await Favs.deleteMany({id:id});
   await Rate.deleteMany({id:id});
   await Comments.deleteMany({id:id});
+  await Details.deleteOne({idd:id});
 
   const a = await Recipes.find({id:hoi.id});
 let objn=[];
@@ -923,7 +925,12 @@ console.log('Details saved!');
 
 socket.on('dets',async (id)=>{
 const haia = await Details.findOne({idd:id});
+if(haia){
 socket.emit('ddts',haia.details);
+}
+else{
+socket.emit('ddts',[]);
+}
 });
 
 });
