@@ -893,7 +893,14 @@ socket.emit('shlis',id,user,a.name);
 });
 
 socket.on('washala',async (id,user)=>{
+const haia = await Recipt.find({id:id});
 await Recipes.deleteOne({id:id,user:user});
+await Recipt.deleteMany({id:id});
+for(const element of haia){
+await Comments.deleteMany({id:element.id});
+await Rate.deleteMany({id:element.id});
+await Details.deleteMany({id:element.id});
+}
 console.log(`${user} removed list!`);
 const taskss = await Recipes.find({user:user});
 socket.emit('loaded', taskss);
