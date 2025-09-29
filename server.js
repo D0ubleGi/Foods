@@ -170,7 +170,7 @@ const TasksSchemaa = new mongoose.Schema({
         id: {type:String, required:true},
         idd:{type:String, required:true},
         user:{type:String, required:true},
-        details:{type:String, required:true}
+        details: { type: [String] }
       },
       {timestamps:true});
       const Details = mongoose.model('Details',Detailss);
