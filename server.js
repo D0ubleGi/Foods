@@ -8,6 +8,7 @@ const { type } = require('os');
 const { buffer } = require('stream/consumers');
 const axios = require("axios");
 const AWS = require('aws-sdk');
+const { stringify } = require('querystring');
 require('dotenv').config({ path: './.env' });
 
 
@@ -164,6 +165,15 @@ const TasksSchemaa = new mongoose.Schema({
       },
       {timestamps:true});
       const Comments = mongoose.model('Comments',Commentss);
+
+      const Detailss = new mongoose.Schema({
+        id: {type:String, required:true},
+        idd:{type:String, required:true},
+        user:{type:String, required:true},
+        details:{type:String, required:true}
+      },
+      {timestamps:true});
+      const Details = mongoose.model('Details',Detailss);
 
 app.use(cors({
   origin: '*',
@@ -898,6 +908,22 @@ obj.push({
 });
 }
 socket.emit('ttlus',obj);
+});
+
+socket.on('detail',async (id,idd,user,details)=>{
+const haia = new Details({
+  id:id,
+  idd:idd,
+  user:user,
+  details:details
+});
+await haia.save();
+console.log('Details saved!');
+});
+
+socket.on('dets',async (id)=>{
+const haia = await Details.findOne({idd:id});
+socket.emit('ddts',haia.details);
 });
 
 });
