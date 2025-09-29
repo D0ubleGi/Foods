@@ -131,7 +131,8 @@ const TasksSchemaa = new mongoose.Schema({
     rate: {type: Number, required: true},
     level: {type: String, required: true},
     amount: {type: Number, required:true},
-    user: {type: String, required: true}
+    user: {type: String, required: true},
+    timi: {type:String, required:true}
   },
     {timestamps: true});
     const Recipt = mongoose.model('Recipt',RecipeSchema);
@@ -553,7 +554,8 @@ console.log(imageUrl, "-----",recs.img);
       rate: recs.rate,
       level: recs.level,
       amount: recs.amount,
-      user: recs.user
+      user: recs.user,
+      timi:recs.timi
     });
     await newi.save();
     console.log('Saved:', recs.id);
