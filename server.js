@@ -1045,8 +1045,7 @@ obji.push({
 const result = await User.find({
       user: { $regex: '^' + term, $options: 'i' }
     });
-console.log(result.length);
-    socket.emit('SeS',result.user);
+    socket.emit('SeS',result);
   });
 
 });
