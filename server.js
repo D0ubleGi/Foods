@@ -9,6 +9,7 @@ const { buffer } = require('stream/consumers');
 const axios = require("axios");
 const AWS = require('aws-sdk');
 const { stringify } = require('querystring');
+const { console } = require('inspector');
 require('dotenv').config({ path: './.env' });
 
 
@@ -78,7 +79,8 @@ mongoose.connect(MONGO_URI, { serverSelectionTimeoutMS: 5000 })
 const userSchema = new mongoose.Schema({
   user: { type: String, required: true, unique:true },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
+  password: { type: String, required: true },
+  active: {type:Date, required:false}
 }, { timestamps: true });
 const User = mongoose.model('User', userSchema);
 
@@ -176,6 +178,21 @@ const TasksSchemaa = new mongoose.Schema({
       {timestamps:true});
       const Details = mongoose.model('Details',Detailss);
 
+      const Friendss = new mongoose.Schema({
+        user: {type:String, required:true},
+        friend: {type:String, required:true},
+        active: {type:Date, required:true}
+      },
+    {timestamps:true});
+    const Friends = mongoose.model('Friends',Friendss);
+
+    const requestss = new mongoose.Schema({
+      send: {type:String, required:true},
+      rec: {type:String,required:true}
+    },
+  {timestamps:true});
+  const Requests = mongoose.model('Requests',requestss);
+
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST'],
@@ -255,6 +272,10 @@ io.on('connection', async (socket) => {
     if (checkuserpass) {
       console.log(`✅ ${user} logged in!`);
       socket.emit('wronguser', 'logged', user);
+      await User.updateOne(
+        {user:user},
+        {set:{active:new Date()}}
+      );
     }
   });
 
@@ -946,6 +967,88 @@ else{
 socket.emit('ddts',[]);
 }
 });
+
+socket.on('friends',async (user)=>{
+const frnds = await Friends.find({user:user});
+if(frnds){
+   for(const element of frnds){
+    const us = await User.findOne({user:element.friend});
+    if(us.active){
+    await Friends.updateOne(
+      {friend:element.friend},
+      {set:{active:us.active}}
+    );
+  }
+   }
+   const frndds = await Friends.find({user:user});
+   socket.emit('dafr',frndds,'all');
+
+  setInterval(async () => {
+   const frndss = await Friends.find({user:user});
+   for(const element of frndss){
+    const us = await User.findOne({user:element.friend});
+    if(us.active){
+    await Friends.updateOne(
+      {friend:element.friend},
+      {set:{active:us.active}}
+    );
+  }
+   }
+   const frndds = await Friends.find({user:user});
+   socket.emit('dafr',frndds,'all');
+  }, 60000);
+}
+else{
+  socket.emit('dafr',[],'none');
+}
+});
+
+socket.on('delfr',async (user,friend)=>{
+await Friends.deleteOne({user:user,friend:friend});
+await Friends.deleteOne({user:friend,friend:user});
+console.log('deleted chat!');
+});
+
+socket.on('searrrc', async (term,user, id) => {
+    const result = await Friends.find({
+      id: id,
+      friend: { $regex: '^' + term, $options: 'i' }
+    });
+     let obji=[];
+for (const element of result) {
+  const a = await Favs.findOne({id:element.idd,user:user});
+  if(a){
+obji.push({
+  user:element.user,
+  friend:element.friend,
+  active:element.active
+});
+  }
+}
+   socket.emit('dafr',obji);
+  });
+
+  socket.on('ldrq',async (user)=>{
+    const haia = await Requests.find({rec:user});
+    if(haia){
+      socket.emit('dafr',haia,'reqs');
+    }
+  });
+
+  socket.on('remreq',async(user,rec)=>{
+    await Requests.deleteOne({send:user,rec:rec});
+    console.log('Friend request deleted!');
+    const haia = await Requests.find({rec:rec});
+    socket.emit('dafr',haia,'reqs');
+  });
+
+  socket.on('searre',async (term)=>{
+const result = await User.find({
+      user: { $regex: '^' + term, $options: 'i' }
+    });
+
+    socket.emit('SeS',result);
+  });
 
 });
 server.listen(PORT, () => {
