@@ -1029,7 +1029,7 @@ obji.push({
 
   socket.on('ldrq',async (user)=>{
     const haia = await Requests.find({rec:user});
-    for(const element of haia){console.log(element);}
+    for(const element of haia){console.log(element.user);}
     if(haia){
       socket.emit('dafr',haia,'reqs');
     }
