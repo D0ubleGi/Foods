@@ -1041,19 +1041,20 @@ obji.push({
     socket.emit('dafr',haia,'reqs');
   });
 
-  socket.on('searre',async (term,user)=>{
-const result = await User.find({
-      user: { $regex: '^' + term, $options: 'i' }
-    });
-    let obj=[];
-    for (const element of result){
-      const a = await Requests.findOne({send:user,rec:element.user});
-      if(a){
-      obj.push(element.user);
-      }
-    }
-    socket.emit('SeS',result,obj);
+ socket.on('searre', async (term, user) => {
+  const result = await User.find({
+    user: { $regex: '^' + term, $options: 'i' }
   });
+
+  const users = result.map(el => el.user);
+  const requests = await Requests.find({
+    send: user,
+    rec: { $in: users }
+  });
+  const recusers = requests.map(r => r.rec);
+  socket.emit('SeS', result, recusers);
+});
+
 
   socket.on('Sendr',async (me,to)=>{
     const h = await Requests.findOne({send:me,rec:to});
