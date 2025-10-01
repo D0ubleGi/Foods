@@ -1041,11 +1041,29 @@ obji.push({
     socket.emit('dafr',haia,'reqs');
   });
 
-  socket.on('searre',async (term)=>{
+  socket.on('searre',async (term,user)=>{
 const result = await User.find({
       user: { $regex: '^' + term, $options: 'i' }
     });
-    socket.emit('SeS',result);
+    let obj=[];
+    for (const element of result){
+      const a = await Requests.findOne({send:user,rec:element.user});
+      if(a){
+      obj.push(element.user);
+      }
+    }
+    socket.emit('SeS',result,obj);
+  });
+
+  socket.on('Sendr',async (me,to)=>{
+    const h = await Requests.findOne({send:me,rec:to});
+    if(!h){
+      const addi = new Requests({
+        send:me,
+        rec:to
+      });
+      await addi.save();
+    }
   });
 
 });
