@@ -1047,7 +1047,7 @@ const result = await User.find({
       user: { $regex: '^' + term, $options: 'i' }
     });
 
-    socket.emit('SeS',result);
+    socket.emit('SeS',result.user);
   });
 
 });
