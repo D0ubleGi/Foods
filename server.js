@@ -992,6 +992,8 @@ if(frnds){
     await Friends.updateOne(
       {friend:element.friend},
       {$set:{active:us.active}}
+
+
     );
   }
    }
@@ -1015,18 +1017,7 @@ socket.on('searrrc', async (term,user, id) => {
       user:user,
       friend: { $regex: '^' + term, $options: 'i' }
     });
-     let obji=[];
-for (const element of result) {
-  const a = await Favs.findOne({id:element.id,user:user});
-  if(a){
-obji.push({
-  user:element.user,
-  friend:element.friend,
-  active:element.active
-});
-  }
-}
-   socket.emit('dafr',obji);
+   socket.emit('dafr',result);
   });
 
   socket.on('ldrq',async (user)=>{
