@@ -972,6 +972,7 @@ const frnds = await Friends.find({user:user});
 if(frnds){
    for(const element of frnds){
     const us = await User.findOne({user:element.friend});
+    console.log(`${element.friend} act ${us.active}`);
     if(us.active){
     await Friends.updateOne(
       {friend:element.friend},
@@ -986,6 +987,7 @@ if(frnds){
    const frndss = await Friends.find({user:user});
    for(const element of frndss){
     const us = await User.findOne({user:element.friend});
+        console.log(`${element.friend} act ${us.active}`);
     if(us.active){
     await Friends.updateOne(
       {friend:element.friend},
@@ -1070,6 +1072,8 @@ obji.push({
   socket.on('addfrn',async (me,to)=>{
     const ta = await User.findOne({user:me});
     const tu = await User.findOne({user:to});
+    console.log(ta.active);
+    console.log(tu.active);
    const ha = new Friends({
     user:me,
     friend:to,
