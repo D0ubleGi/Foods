@@ -1017,7 +1017,7 @@ socket.on('searrrc', async (term,user, id) => {
       user:user,
       friend: { $regex: '^' + term, $options: 'i' }
     });
-   socket.emit('dafr',result);
+   socket.emit('dafr',result,'all');
   });
 
   socket.on('ldrq',async (user)=>{
