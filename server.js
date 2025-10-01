@@ -180,7 +180,7 @@ const TasksSchemaa = new mongoose.Schema({
       const Friendss = new mongoose.Schema({
         user: {type:String, required:true},
         friend: {type:String, required:true},
-        active: {type:Date, required:true}
+        active: {type:Date, required:false}
       },
     {timestamps:true});
     const Friends = mongoose.model('Friends',Friendss);
