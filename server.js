@@ -1010,12 +1010,12 @@ console.log('deleted chat!');
 
 socket.on('searrrc', async (term,user, id) => {
     const result = await Friends.find({
-      id: id,
+      user:user,
       friend: { $regex: '^' + term, $options: 'i' }
     });
      let obji=[];
 for (const element of result) {
-  const a = await Favs.findOne({id:element.idd,user:user});
+  const a = await Favs.findOne({id:element.id,user:user});
   if(a){
 obji.push({
   user:element.user,
@@ -1029,7 +1029,6 @@ obji.push({
 
   socket.on('ldrq',async (user)=>{
     const haia = await Requests.find({rec:user});
-    for(const element of haia){console.log(element.user);}
     if(haia){
       socket.emit('dafr',haia,'reqs');
     }
@@ -1066,6 +1065,24 @@ obji.push({
       });
       await addi.save();
     }
+  });
+
+  socket.on('addfrn',async (me,to)=>{
+    const ta = await User.findOne({user:me});
+    const tu = await User.findOne({user:to});
+   const ha = new Friends({
+    user:me,
+    friend:to,
+    active:ta.active
+   });
+   await ha.save();
+
+   const hu = new Friends({
+    user:to,
+    friend:me,
+    active:tu.active
+   });
+   hu.save();
   });
 
 });
