@@ -273,7 +273,7 @@ io.on('connection', async (socket) => {
       socket.emit('wronguser', 'logged', user);
       await User.updateOne(
         {user:user},
-        {set:{active:new Date()}}
+        {$set:{active:new Date()}}
       );
     }
   });
@@ -976,7 +976,7 @@ if(frnds){
     if(us.active){
     await Friends.updateOne(
       {friend:element.friend},
-      {set:{active:us.active}}
+      {$set:{active:us.active}}
     );
   }
    }
@@ -991,7 +991,7 @@ if(frnds){
     if(us.active){
     await Friends.updateOne(
       {friend:element.friend},
-      {set:{active:us.active}}
+      {$set:{active:us.active}}
     );
   }
    }
