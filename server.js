@@ -197,7 +197,8 @@ const TasksSchemaa = new mongoose.Schema({
     id: {type:String, required:true},
     sender: {type:String, required:true},
     receiver: {type:String, required:true},
-    message: {type:String, required:true}
+    message: {type:String, required:true},
+    date: {type:String, required:true}
   },
 {timestamps:true});
 const Message = mongoose.model('Message',messagee);
@@ -1092,12 +1093,13 @@ socket.on('searrrc', async (term,user, id) => {
    socket.emit('dafr',jo,'all');
   });
 
-  socket.on('gagzavne',async (id,sender,receiver,message)=>{
+  socket.on('gagzavne',async (id,sender,receiver,message,date)=>{
     const mess = new Message({
       id:id,
       sender:sender,
       receiver:receiver,
-      message:message
+      message:message,
+      date:date
     });
     await mess.save();
     console.log('message saved!');
