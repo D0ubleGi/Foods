@@ -178,6 +178,7 @@ const TasksSchemaa = new mongoose.Schema({
       const Details = mongoose.model('Details',Detailss);
 
       const Friendss = new mongoose.Schema({
+        id: {type:String, required:true},
         user: {type:String, required:true},
         friend: {type:String, required:true},
         active: {type:Date, required:false}
@@ -191,6 +192,15 @@ const TasksSchemaa = new mongoose.Schema({
     },
   {timestamps:true});
   const Requests = mongoose.model('Requests',requestss);
+
+  const messagee = new mongoose.Schema({
+    id: {type:String, required:true},
+    sender: {type:String, required:true},
+    receiver: {type:String, required:true},
+    message: {type:String, required:true}
+  },
+{timestamps:true});
+const Message = mongoose.model('Message',messagee);
 
 app.use(cors({
   origin: '*',
@@ -1060,12 +1070,11 @@ socket.on('searrrc', async (term,user, id) => {
     }
   });
 
-  socket.on('addfrn',async (me,to)=>{
+  socket.on('addfrn',async (id,me,to)=>{
     const ta = await User.findOne({user:me});
     const tu = await User.findOne({user:to});
-    console.log(ta.active);
-    console.log(tu.active);
    const ha = new Friends({
+    id:id,
     user:me,
     friend:to,
     active:ta.active
@@ -1073,11 +1082,30 @@ socket.on('searrrc', async (term,user, id) => {
    await ha.save();
 
    const hu = new Friends({
+    id:id,
     user:to,
     friend:me,
     active:tu.active
    });
    hu.save();
+   const jo = await Friends.find({user:me});
+   socket.emit('dafr',jo,'all');
+  });
+
+  socket.on('gagzavne',async (id,sender,receiver,message)=>{
+    const mess = new Message({
+      id:id,
+      sender:sender,
+      receiver:receiver,
+      message:message
+    });
+    await mess.save();
+    console.log('message saved!');
+    const messs = await Message.find({id:id});
+    if(messs.length>30){
+      await Message.findOneAndDelete({id:id},{sort:{createdAt:1}});
+    }
+    socket.emit('Newmes',messs);
   });
 
 });
