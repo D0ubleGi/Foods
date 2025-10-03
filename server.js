@@ -1110,6 +1110,24 @@ socket.on('searrrc', async (term,user, id) => {
     socket.emit('Newmes',messs);
   });
 
+  socket.on('loadmasi',async (id)=>{
+    const haia = await Message.find({id:id});
+      socket.emit('Newmes',messs);
+  });
+
+  socket.on('edtg',async (id,sender,rec,mess,newme)=>{
+      await Message.updateOne(
+    {
+    id:id,
+    sender:sender,
+    receiver:rec,
+    message:mess,
+    },
+    {$set: {message:newme}}
+  );
+  const haia = await Message.find({id:id});
+  socket.emit('Newmes',haia);
+  });
 });
 server.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
