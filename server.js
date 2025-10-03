@@ -1126,7 +1126,7 @@ socket.on('searrrc', async (term,user, id) => {
     {$set: {message:newme}}
   );
   const haia = await Message.find({id:id});
-  console.log('updated!');
+  console.log(id,sender,rec,mess);
   socket.emit('Newmes',haia);
   });
 
