@@ -1126,9 +1126,12 @@ socket.on('searrrc', async (term,user, id) => {
     {$set: {message:newme}}
   );
   const haia = await Message.find({id:id});
+  console.log('updated!');
   socket.emit('Newmes',haia);
   });
+
 });
+
 server.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
