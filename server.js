@@ -1112,7 +1112,7 @@ socket.on('searrrc', async (term,user, id) => {
 
   socket.on('loadmasi',async (id)=>{
     const haia = await Message.find({id:id});
-      socket.emit('Newmes',messs);
+      socket.emit('Newmes',haia);
   });
 
   socket.on('edtg',async (id,sender,rec,mess,newme)=>{
