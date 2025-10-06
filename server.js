@@ -1130,10 +1130,10 @@ socket.on('searrrc', async (term,user, id) => {
   socket.emit('Newmes',haia);
   });
 
-  socket.on('delo',async (id,send,rec)=>{
-    await Message.deleteOne({id:id});
+  socket.on('delo',async (id,send,rec,mess)=>{
+    await Message.deleteOne({id:id,sender:send,receiver:rec,message:mess});
     console.log("deleted message");
-    const haia = await Message.find({sender:send,receiver:rec});
+    const haia = await Message.find({id:id});
     socket.emit('Newmes',haia);
   });
 
