@@ -216,8 +216,8 @@ const io = new Server(server, {
     credentials: true
   },
   transports: ['websocket', 'polling'],
-  pingTimeout: 200000,
-  pingInterval: 30000,
+  pingInterval: 25000,
+  pingTimeout: 1800000,
   maxHttpBufferSize: 1e8  
 });
 
