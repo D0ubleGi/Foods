@@ -998,7 +998,7 @@ if(frnds){
    const frndss = await Friends.find({user:user});
    for(const element of frndss){
     const us = await User.findOne({user:element.friend});
-        console.log(`${element.friend} act ${us.active}`);
+
     if(us.active){
     await Friends.updateOne(
       {friend:element.friend},
@@ -1099,6 +1099,7 @@ socket.on('searrrc', async (term,user, id) => {
   });
 
   socket.on('gagzavne',async (id,sender,receiver,message,date)=>{
+    socket.join(id);
     const mess = new Message({
       id:id,
       sender:sender,
@@ -1112,15 +1113,17 @@ socket.on('searrrc', async (term,user, id) => {
     if(messs.length>30){
       await Message.findOneAndDelete({id:id},{sort:{createdAt:1}});
     }
-    socket.emit('Newmes',messs);
+    io.to(id).emit('Newmes',messs);
   });
 
   socket.on('loadmasi',async (id)=>{
+    socket.join(id);
     const haia = await Message.find({id:id});
-      socket.emit('Newmes',haia);
+    io.to(id).emit('Newmes',haia);
   });
 
   socket.on('edtg',async (id,sender,rec,mess,newme)=>{
+    socket.join(id);
       await Message.updateOne(
     {
     id:id,
@@ -1132,10 +1135,11 @@ socket.on('searrrc', async (term,user, id) => {
   );
   const haia = await Message.find({id:id});
   console.log(id,sender,rec,mess);
-  socket.emit('Newmes',haia);
+    io.to(id).emit('Newmes',haia);
   });
 
   socket.on('delo',async (id,send,rec,mess)=>{
+    socket.join(id);
     await Message.deleteOne({id:id,sender:send,receiver:rec,message:mess});
     console.log("deleted message",id);
     const haia = await Message.find({id:id});
@@ -1144,10 +1148,11 @@ socket.on('searrrc', async (term,user, id) => {
 await deleteFromS3(fileNameFromUrl);
 console.log('deleted from s3!');
     }
-    socket.emit('Newmes',haia);
+    io.to(id).emit('Newmes',haia);
   });
 
 socket.on('gagzavnu', async (id,sender,receiver,img,ty,date) => {
+  socket.join(id);
    const fileName = `${id}_${Date.now()}.${ty.split('/')[1]}`;
   const imageUrl = await uploadToS3(fileName, img, ty);
 
@@ -1172,7 +1177,7 @@ console.log('deleted from s3!');
     }
 
     const haia = await Message.find({id:id});
-     socket.emit('Newmes',haia);
+    io.to(id).emit('Newmes',haia);
 
 });
 
