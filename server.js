@@ -1134,11 +1134,44 @@ socket.on('searrrc', async (term,user, id) => {
     await Message.deleteOne({id:id,sender:send,receiver:rec,message:mess});
     console.log("deleted message",id);
     const haia = await Message.find({id:id});
+    if(isImageUrl(mess)){
+      const fileNameFromUrl = mess.split('/').pop();
+await deleteFromS3(fileNameFromUrl);
+console.log('deleted from s3!');
+    }
     socket.emit('Newmes',haia);
   });
 
+socket.on('gagzavnu', async (id,sender,receiver,img,ty,date) => {
+   const fileName = `${id}_${Date.now()}.${ty.split('/')[1]}`;
+  const imageUrl = await uploadToS3(fileName, img, ty);
+
+  const rec = new Message({
+    id: id,
+    sender: sender,
+    receiver: receiver,
+    message: imageUrl,
+    date: date
+});
+await rec.save();
+console.log('message saved!');
+ const messs = await Message.find({id:id});
+    if(messs.length>30){
+      const a = await Message.findOne({id:id},{sort:{createdAt:1}});
+      if(isImageUrl(a.message)){
+        const fileNameFromUrl = hai.img.split('/').pop();
+await deleteFromS3(fileNameFromUrl);
+console.log('deleted from s3!');
+      }
+      await Message.findOneAndDelete({id:id},{sort:{createdAt:1}});
+    }
 });
 
+function isImageUrl(url) {
+  return /\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i.test(url);
+}
+
+});
 server.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
