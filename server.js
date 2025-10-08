@@ -1004,7 +1004,6 @@ if(frnds){
       {friend:element.friend},
       {$set:{active:us.active}}
 
-
     );
   }
    }
@@ -1040,6 +1039,7 @@ socket.on('searrrc', async (term,user, id) => {
 
   socket.on('remreq',async(user,rec)=>{
     await Requests.deleteOne({send:user,rec:rec});
+    await Requests.deleteOne({send:rec,rec:user});
     console.log('Friend request deleted!');
     const haia = await Requests.find({rec:rec});
     socket.emit('dafr',haia,'reqs');
@@ -1051,11 +1051,16 @@ socket.on('searrrc', async (term,user, id) => {
   });
 
   const users = result.map(el => el.user);
+  
+  const fr = await Friends.find({user:user});
+  const frs = fr.map(f => f.friend);
+  
   const requests = await Requests.find({
     send: user,
-    rec: { $in: users }
+    rec: { $in: users, $nin: frs }
   });
   const recusers = requests.map(r => r.rec);
+  
   socket.emit('SeS', result, recusers);
 });
 
