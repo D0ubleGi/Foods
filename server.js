@@ -1165,6 +1165,10 @@ console.log('deleted from s3!');
       }
       await Message.findOneAndDelete({id:id},{sort:{createdAt:1}});
     }
+
+    const haia = await Message.find({id:id});
+     socket.emit('Newmes',haia);
+
 });
 
 function isImageUrl(url) {
