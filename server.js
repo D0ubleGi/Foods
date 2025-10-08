@@ -1059,7 +1059,7 @@ socket.on('searrrc', async (term,user, id) => {
     user: user,
     friend: { $in: users}
   });
-  const recusers = requests.map(r => r.rec);
+  const recusers = requests.map(r => r.friend);
   
   socket.emit('SeS', result, recusers);
 });
