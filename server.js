@@ -1057,7 +1057,7 @@ socket.on('searrrc', async (term,user, id) => {
   
   const requests = await Friends.find({
     send: user,
-    rec: { $in: users}
+    friend: { $in: users}
   });
   const recusers = requests.map(r => r.rec);
   
