@@ -1061,7 +1061,7 @@ socket.on('searrrc', async (term,user, id) => {
   });
   const recusers = requests.map(r => r.rec);
   
-  socket.emit('SeS', result, recusers);
+  socket.emit('SeS', recusers, 'p');
 });
 
 
