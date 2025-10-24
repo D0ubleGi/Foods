@@ -254,9 +254,6 @@ io.on('connection', async (socket) => {
         return;
       }
 
-      const newUser = new User({ user: username, email, password });
-      await newUser.save();
-      console.log('✅ User saved to DB');
       socket.emit('register-taken', 'added');
     } catch (err) {
       console.error('❌ Error saving user:', err.message);
@@ -566,6 +563,7 @@ socket.emit('reciptebi',sortedRecipess);
 
 });
 socket.on('addnew', async (recs) => {
+  console.log('here');
   try {
  const imgBuffer = recs.img;  
     const mimeType = recs.imgstype; 
