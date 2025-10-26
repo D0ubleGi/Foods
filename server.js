@@ -1179,6 +1179,38 @@ console.log('deleted from s3!');
 
 });
 
+socket.on('apisr',async(term)=>{
+const letter =term[0]; 
+const url = `https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    const filtered = data.meals?.filter(meal => 
+  meal.strMeal.toLowerCase().startsWith(letter.toLowerCase())
+);
+let all = [];
+  filtered.forEach((element) => {
+    const name = element.strMeal;
+    const categ = element.strCategory;
+    const area = element.strArea;
+    const image = element.strMealThumb;
+
+    let haia =[];
+    
+    for (let i=0;i<=20;i++){
+      const ingr = element[`strIngredient${i}`];
+      const measure = element[`strMeasure${i}`];
+      if(ingr && ingr.trim()){
+        haia.push(`${ingr} - ${measure}`);
+      }
+    }
+   all.push({name:name,category:categ,area:area,image:image,ingredients:haia,instructions:element.strInstructions});
+   haia=[];
+  });
+socket.emit('retapi',all);
+all=[];
+
+});
+
 function isImageUrl(url) {
   return /\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i.test(url);
 }
