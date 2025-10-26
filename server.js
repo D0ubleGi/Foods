@@ -1193,6 +1193,7 @@ let all = [];
     const categ = element.strCategory;
     const area = element.strArea;
     const image = element.strMealThumb;
+    const id = element.idMeal;
 
     let haia =[];
     
@@ -1203,12 +1204,35 @@ let all = [];
         haia.push(`${ingr} - ${measure}`);
       }
     }
-   all.push({name:name,category:categ,area:area,image:image,ingredients:haia,instructions:element.strInstructions});
+   all.push({name:name,category:categ,area:area,image:image,ingredients:haia,instructions:element.strInstructions,id:id});
    haia=[];
   });
 socket.emit('retapi',all);
 all=[];
+});
 
+socket.on('idapi',async(id)=>{
+const url = `www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    let haia=[];
+     for (let i=0;i<=20;i++){
+      const ingr = data[`strIngredient${i}`];
+      const measure = data[`strMeasure${i}`];
+      if(ingr && ingr.trim()){
+        haia.push(`${ingr} - ${measure}`);
+      }
+    }
+        const name = data.strMeal;
+    const categ = data.strCategory;
+    const area = data.strArea;
+    const image = data.strMealThumb;
+    const idi = data.idMeal;
+    const insto = data.strInstructions
+
+    socket.emit('apidta',name,categ,area,image,idi,insto,haia);
+
+    haia=[];
 });
 
 function isImageUrl(url) {
