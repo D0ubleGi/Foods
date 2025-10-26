@@ -1184,6 +1184,12 @@ const letter =term[0];
 const url = `https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`;
     const response = await fetch(url);
     const data = await response.json();
+
+    if(!data){
+      socket.emit('retapi','no');
+      return;
+    }
+
     const filtered = data.meals?.filter(meal => 
   meal.strMeal.toLowerCase().startsWith(term.toLowerCase())
 );
