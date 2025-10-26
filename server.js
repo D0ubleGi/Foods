@@ -1185,8 +1185,8 @@ const url = `https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`;
     const response = await fetch(url);
     const data = await response.json();
 
-    if(!data){
-      socket.emit('retapi','no');
+    if(data.length==0){
+      socket.emit('retapi',[]);
       return;
     }
 
