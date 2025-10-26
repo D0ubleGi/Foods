@@ -1185,13 +1185,13 @@ const url = `https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`;
     const response = await fetch(url);
     const data = await response.json();
 
-    if(data.length==0){
-      socket.emit('retapi',[]);
-      return;
-    }
+   if (!data || !Array.isArray(data.meals)) {
+  socket.emit('retapi', []);
+  return;
+}
 
-    const filtered = data.meals?.filter(meal => 
-  meal.strMeal.toLowerCase().startsWith(term.toLowerCase())
+const filtered = data.meals.filter(meal => 
+  meal.strMeal.toLowerCase().includes(term.toLowerCase())
 );
 let all = [];
   filtered.forEach((element) => {
