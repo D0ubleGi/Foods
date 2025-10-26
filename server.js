@@ -1185,7 +1185,7 @@ const url = `https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`;
     const response = await fetch(url);
     const data = await response.json();
     const filtered = data.meals?.filter(meal => 
-  meal.strMeal.toLowerCase().includes(term.toLowerCase())
+  meal.strMeal.toLowerCase().startsWith(term.toLowerCase())
 );
 let all = [];
   filtered.forEach((element) => {
