@@ -1187,6 +1187,7 @@ const url = `https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`;
 
    if (!data || !Array.isArray(data.meals)) {
   socket.emit('retapi', []);
+  console.log('cariel');
   return;
 }
 
