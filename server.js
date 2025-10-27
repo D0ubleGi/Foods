@@ -1243,20 +1243,24 @@ const url = `www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
 });
 
 socket.on('callor',async (letter)=>{
-const url = `https://api.calorieninjas.com/v1/nutrition?query=${encodeURIComponent(letter)}`;
+const url = `https://api.api-ninjas.com/v1/nutrition?query=${encodeURIComponent(letter)}`;
 
-const response = await fetch(url, {
-  headers: {
-    'X-Api-Key': 'zZA1W20szU2GFwLxLTbYmw==7UUoSV7NdIzEEJS2' 
+try {
+  const response = await fetch(url, {
+    headers: { 'X-Api-Key': 'zZA1W20szU2GFwLxLTbYmw==7UUoSV7NdIzEEJS2' }
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`API Ninjas Nutrition API error: ${response.status} ${response.statusText} — ${text}`);
   }
-});
 
-if (!response.ok) {
-  const text = await response.text();
-  throw new Error(`CalorieNinjas API error: ${response.status} ${response.statusText} — ${text}`);
+  const data = await response.json();
+  console.log(data);
+} catch (err) {
+  console.error(err.message);
 }
-const data = await response.json();
-console.log(data);
+
 
 });
 
