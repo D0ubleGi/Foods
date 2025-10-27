@@ -1242,6 +1242,18 @@ const url = `www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
     haia=[];
 });
 
+socket.on('callor',async (letter)=>{
+const url = `https://api.calorieninjas.com/v1/nutrition?query=${letter}`;
+const response = await fetch(url, {
+  headers: {
+    'X-Api-Key': 'SBm6+nF28fLrPKGxAqeN+g==cySK4PHItUQxbaAn'
+  }
+});
+const data = await response.json();
+console.log(data);
+
+});
+
 function isImageUrl(url) {
   return /\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i.test(url);
 }
