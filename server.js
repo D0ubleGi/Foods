@@ -1243,7 +1243,6 @@ const url = `www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
 });
 
 socket.on('callor',async (letter)=>{
-
 const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(letter)}&search_simple=1&action=process&json=1`;
 
 try {
@@ -1251,16 +1250,15 @@ try {
   if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
   
   const data = await response.json();
-
   const product = data.products[0];
 
   if (!product || !product.nutriments) {
     console.log("No nutriments data available.");
   } else {
-    const nutrimentsArray = []; // normal array
+    const nutrimentsArray = [];
 
     for (const key in product.nutriments) {
-      if (product.nutriments.hasOwnProperty(key)) {
+      if (product.nutriments.hasOwnProperty(key) && !key.includes('_')) {
         nutrimentsArray.push([key, product.nutriments[key]]);
       }
     }
