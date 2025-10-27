@@ -4,6 +4,8 @@ const http = require('http');
 const cors = require('cors');
 const { Server } = require('socket.io');
 const mongoose = require('mongoose');
+import fetch from 'node-fetch';
+import btoa from 'btoa';
 const { type } = require('os');
 const { buffer } = require('stream/consumers');
 const axios = require("axios");
@@ -1243,20 +1245,33 @@ const url = `www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
 });
 
 socket.on('callor',async (letter)=>{
-const url = `https://api.calorieninjas.com/v1/nutrition?query=${encodeURIComponent(letter)}`;
 
-const response = await fetch(url, {
+const consumerKey = '243cd6bb14ed43e3a752137e81112ebe';
+const consumerSecret = '9a628e938e8245bdbc00d1be873334da';
+
+const tokenResponse = await fetch('https://oauth.fatsecret.com/connect/token', {
+  method: 'POST',
   headers: {
-    'X-Api-Key': 'SBm6+nF28fLrPKGxAqeN+g==cySK4PHItUQxbaAn' 
+    'Authorization': 'Basic ' + btoa(`${consumerKey}:${consumerSecret}`),
+    'Content-Type': 'application/x-www-form-urlencoded'
+  },
+  body: 'grant_type=client_credentials'
+});
+
+const tokenData = await tokenResponse.json();
+const accessToken = tokenData.access_token;
+
+const apiUrl = `https://platform.fatsecret.com/rest/server.api?method=foods.search&search_expression=${encodeURIComponent(letter)}&format=json`;
+
+const apiResponse = await fetch(apiUrl, {
+  headers: {
+    'Authorization': `Bearer ${accessToken}`
   }
 });
 
-if (!response.ok) {
-  const text = await response.text();
-  throw new Error(`CalorieNinjas API error: ${response.status} ${response.statusText} — ${text}`);
-}
-const data = await response.json();
+const data = await apiResponse.json();
 console.log(data);
+
 
 });
 
