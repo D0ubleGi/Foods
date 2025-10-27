@@ -1304,9 +1304,11 @@ socket.on('cheapis',async (name,id)=>{
 const haia = await Api.findOne({id:id,name:name});
 if(haia){
   socket.emit('apiari',"yes");
+  console.log('aris');
 }
 else{
   socket.emit('apiari',"no");
+  console.log('araris');
 }
 });
 
