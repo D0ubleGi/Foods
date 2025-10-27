@@ -1263,7 +1263,7 @@ try {
       }
     }
 
-    console.log(nutrimentsArray);
+    socket.emit('caloli',nutrimentsArray);
   }
 
 } catch (err) {
