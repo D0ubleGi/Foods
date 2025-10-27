@@ -1243,8 +1243,8 @@ const url = `www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
 });
 
 socket.on('callor',async (letter)=>{
-const foodName = "chicken enchilada";
-const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(foodName)}&search_simple=1&action=process&json=1`;
+
+const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(letter)}&search_simple=1&action=process&json=1`;
 
 try {
   const response = await fetch(url);
@@ -1254,18 +1254,20 @@ try {
 
   const product = data.products[0];
 
-  if (product && product.nutriments) {
-    console.log(`Name: ${product.product_name}`);
-    console.log(`Calories: ${product.nutriments['energy-kcal_100g']} kcal`);
-    console.log(`Protein: ${product.nutriments['proteins_100g']} g`);
-    console.log(`Fat: ${product.nutriments['fat_100g']} g`);
-    console.log(`Carbs: ${product.nutriments['carbohydrates_100g']} g`);
-    console.log(`Fiber: ${product.nutriments['fiber_100g']} g`);
-    console.log(`Sugar: ${product.nutriments['sugars_100g']} g`);
-    console.log(`Sodium: ${product.nutriments['sodium_100g']} g`);
+  if (!product || !product.nutriments) {
+    console.log("No nutriments data available.");
   } else {
-    console.log("No nutrition info found for this product.");
+    const nutrimentsArray = []; // normal array
+
+    for (const key in product.nutriments) {
+      if (product.nutriments.hasOwnProperty(key)) {
+        nutrimentsArray.push([key, product.nutriments[key]]);
+      }
+    }
+
+    console.log(nutrimentsArray);
   }
+
 } catch (err) {
   console.error(err.message);
 }
