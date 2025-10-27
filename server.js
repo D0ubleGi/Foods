@@ -203,6 +203,12 @@ const TasksSchemaa = new mongoose.Schema({
 {timestamps:true});
 const Message = mongoose.model('Message',messagee);
 
+const Apis = new mongoose.Schema({
+id: {type:Number, required:true},
+name: {type:String, required:true}},
+{timestamps:true});
+const Api = mongoose.model('Api',Apis);
+
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST'],
@@ -1273,7 +1279,36 @@ try {
   console.error(err.message);
 }
 
+socket.on('daaapi',async (name,id)=>{
+const ha = await Api.findOne({id:id,name:name});
+if(!ha){
+  const now = new Api({
+    id:id,
+    name:name
+  });
+  await now.save();
 
+  console.log('Saved!'+id);
+}
+});
+
+socket.on('washapi',async (name,id)=>{
+const ha = await Api.findOne({id:id,name:name});
+if(ha){
+  await Api.deleteOne({id:id,name:name});
+  console.log('Deleted!'+id);
+}
+});
+
+socket.on('cheapis',async (name,id)=>{
+const haia = await Api.findOne({id:id,name:name});
+if(haia){
+  socket.emit('apiari',"yes");
+}
+else{
+  socket.emit('apiari',"no");
+}
+});
 
 });
 
