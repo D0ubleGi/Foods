@@ -1278,7 +1278,7 @@ try {
 } catch (err) {
   console.error(err.message);
 }
-
+});
 socket.on('daaapi',async (name,id)=>{
 const ha = await Api.findOne({id:id,name:name});
 if(!ha){
@@ -1300,6 +1300,8 @@ if(ha){
 }
 });
 
+
+
 socket.on('cheapis',async (name,id)=>{
   console.log('buum');
 const haia = await Api.findOne({id:id,name:name});
@@ -1313,7 +1315,6 @@ else{
 }
 });
 
-});
 
 function isImageUrl(url) {
   return /\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i.test(url);
