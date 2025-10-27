@@ -1243,12 +1243,18 @@ const url = `www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
 });
 
 socket.on('callor',async (letter)=>{
-const url = `https://api.calorieninjas.com/v1/nutrition?query=${letter}`;
+const url = `https://api.calorieninjas.com/v1/nutrition?query=${encodeURIComponent(letter)}`;
+
 const response = await fetch(url, {
   headers: {
-    'X-Api-Key': 'SBm6+nF28fLrPKGxAqeN+g==cySK4PHItUQxbaAn'
+    'X-Api-Key': 'SBm6+nF28fLrPKGxAqeN+g==cySK4PHItUQxbaAn' 
   }
 });
+
+if (!response.ok) {
+  const text = await response.text();
+  throw new Error(`CalorieNinjas API error: ${response.status} ${response.statusText} — ${text}`);
+}
 const data = await response.json();
 console.log(data);
 
