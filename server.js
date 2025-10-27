@@ -1301,6 +1301,7 @@ if(ha){
 });
 
 socket.on('cheapis',async (name,id)=>{
+  console.log('buum');
 const haia = await Api.findOne({id:id,name:name});
 if(haia){
   socket.emit('apiari',"yes");
