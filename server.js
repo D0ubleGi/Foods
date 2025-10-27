@@ -1254,6 +1254,9 @@ try {
 
   if (!product || !product.nutriments) {
     console.log("No nutriments data available.");
+    
+    socket.emit('caloli','no','no');
+
   } else {
     const nutrimentsArray = [];
 
