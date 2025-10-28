@@ -1364,6 +1364,38 @@ socket.emit('apidta',hui);
 }
 });
 
+socket.on('naxidd',async (id)=>{
+
+    const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${element.id}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    const meal = data?.meals?.[0];
+
+    const name = meal.strMeal;
+    const categ = meal.strCategory;
+    const area = meal.strArea;
+    const image = meal.strMealThumb;
+    const idi = meal.idMeal;
+    const instr = meal.strInstructions;
+
+    let haia =[];
+    
+    for (let i=0;i<=20;i++){
+      const ingr = meal[`strIngredient${i}`];
+      const measure = meal[`strMeasure${i}`];
+      if(ingr && ingr.trim()){
+        haia.push(`${ingr} - ${measure}`);
+      }
+    }
+
+    hama.push({name:name,category:categ,area:area,image:image,instructions:instr,all:haia,id:idi});
+    
+    socket.emit('apiis',hama);
+
+ 
+});
+
 });
 server.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
