@@ -1229,6 +1229,8 @@ socket.on('idapi',async(name)=>{
 
   let hama = [];
 
+  console.log(ha.length);
+
   if(ha){
     for(const element in ha){
 const url = `www.themealdb.com/api/json/v1/1/lookup.php?i=${element.id}`;
