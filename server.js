@@ -1393,6 +1393,8 @@ socket.on('naxidd',async (id)=>{
     
     socket.emit('apiis',hama);
 
+    console.log('ewea');
+
  
 });
 
