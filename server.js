@@ -1299,6 +1299,37 @@ if(!ha){
 
   console.log('Saved!'+id);
 }
+
+ const ham = await Api.find({name:name});
+
+  let hama = [];
+
+  if(ham){
+    for(const element of ham){
+
+    const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${element.id}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+     const meal = data?.meals?.[0];
+    if (!meal) {
+      console.warn('No meal data for id', element.id);
+      continue;
+    }
+
+    const name = meal.strMeal;
+    const categ = meal.strCategory;
+    const area = meal.strArea;
+    const image = meal.strMealThumb;
+    const idi = meal.idMeal;
+
+    hama.push({name:name,category:categ,area:area,image:image,id:idi});
+    
+  };
+  }
+    socket.emit('apidta',hama);
+
+
 });
 
 socket.on('washapi',async (name,id)=>{
@@ -1307,6 +1338,38 @@ if(ha){
   await Api.deleteOne({id:id,name:name});
   console.log('Deleted!'+id);
 }
+
+ const ham = await Api.find({name:name});
+
+  let hama = [];
+
+  if(ham){
+    for(const element of ham){
+
+    const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${element.id}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+     const meal = data?.meals?.[0];
+    if (!meal) {
+      console.warn('No meal data for id', element.id);
+      continue;
+    }
+
+    const name = meal.strMeal;
+    const categ = meal.strCategory;
+    const area = meal.strArea;
+    const image = meal.strMealThumb;
+    const idi = meal.idMeal;
+
+    hama.push({name:name,category:categ,area:area,image:image,id:idi});
+    
+  };
+
+    socket.emit('apidta',hama);
+
+  }
+
 });
 
 
