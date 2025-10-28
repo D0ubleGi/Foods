@@ -1224,28 +1224,30 @@ socket.emit('retapi',all);
 all=[];
 });
 
-socket.on('idapi',async(id)=>{
-const url = `www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+socket.on('idapi',async(name)=>{
+  const ha = await Api.find({name:name});
+
+  let hama = [];
+
+  if(ha){
+    for(const element in ha){
+const url = `www.themealdb.com/api/json/v1/1/lookup.php?i=${element.id}`;
     const response = await fetch(url);
     const data = await response.json();
-    let haia=[];
-     for (let i=0;i<=20;i++){
-      const ingr = data[`strIngredient${i}`];
-      const measure = data[`strMeasure${i}`];
-      if(ingr && ingr.trim()){
-        haia.push(`${ingr} - ${measure}`);
-      }
-    }
-        const name = data.strMeal;
+
+    const name = data.strMeal;
     const categ = data.strCategory;
     const area = data.strArea;
     const image = data.strMealThumb;
     const idi = data.idMeal;
-    const insto = data.strInstructions
 
-    socket.emit('apidta',name,categ,area,image,idi,insto,haia);
+    hama.push({name:name,category:categ,area:area,image:image,id:idi});
+    
+  };
 
-    haia=[];
+    socket.emit('apidta',hama);
+
+  }
 });
 
 socket.on('callor',async (letter)=>{
