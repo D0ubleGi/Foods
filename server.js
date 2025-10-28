@@ -1388,10 +1388,8 @@ socket.on('naxidd',async (id)=>{
         haia.push(`${ingr} - ${measure}`);
       }
     }
-
-    hama.push({name:name,category:categ,area:area,image:image,instructions:instr,all:haia,id:idi});
     
-    socket.emit('apiis',hama);
+    socket.emit('apiis',name,categ,area,image,instr,haia,idi);
 
     console.log('ewea');
 
