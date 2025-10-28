@@ -1366,7 +1366,7 @@ socket.emit('apidta',hui);
 
 socket.on('naxidd',async (id)=>{
 
-    const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${element.id}`;
+    const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
     const response = await fetch(url);
     const data = await response.json();
 
