@@ -1229,12 +1229,10 @@ socket.on('idapi',async(name)=>{
 
   let hama = [];
 
-  console.log(ha.length);
-
   if(ha){
     for(const element of ha){
-      console.log(element.id);
-const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${element.id}`;
+
+    const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${element.id}`;
     const response = await fetch(url);
     const data = await response.json();
 
@@ -1330,6 +1328,41 @@ else{
 function isImageUrl(url) {
   return /\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i.test(url);
 }
+
+socket.on('saevs',async (name,term)=>{
+
+const haia = await Api.find({name:name});
+
+if(haia){
+  let hui = [];
+
+    for(const element of haia){
+
+    const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${element.id}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+     const meal = data?.meals?.[0];
+    if (!meal) {
+      console.warn('No meal data for id', element.id);
+      continue;
+    }
+
+  const name = meal.strMeal;
+    const categ = meal.strCategory;
+    const area = meal.strArea;
+    const image = meal.strMealThumb;
+    const idi = meal.idMeal;
+
+if (meal.strMeal.toLowerCase().startsWith(term.toLowerCase())) {
+  hui.push({name:name,category:categ,area:area,image:image,id:idi});
+}
+}
+
+socket.emit('apidta',hui);
+
+}
+});
 
 });
 server.listen(PORT, () => {
