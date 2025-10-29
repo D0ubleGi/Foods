@@ -209,6 +209,16 @@ name: {type:String, required:true}},
 {timestamps:true});
 const Api = mongoose.model('Api',Apis);
 
+const grocis = new mongoose.Schema({
+  name: {type:String, required:true},
+  dasaxeleba: {type:String, required:true},
+  date: {type:Date, required:true},
+  id: {type: String, required:true},
+  list: {type: Array, required:true}
+},
+{timestamps:true});
+const Grocery = mongoose.model('Grocery',grocis);
+
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST'],
@@ -1456,7 +1466,37 @@ socket.on('naxidd',async (id)=>{
 
     console.log('ewea');
 
- 
+});
+
+socket.on('groceris',async (name,dasa,data,id,all)=>{
+
+const haia = await Grocery.findOne({id:id});
+
+if(!haia){
+  const newi = new Grocery({
+    name:name,
+    dasaxeleba:dasa,
+    date:data,
+    id:id,
+    list:all
+  });
+  await newi.save();
+  console.log('saved!');
+}
+console.log('done');
+});
+
+socket.on('getgrocs',async (name)=>{
+
+  const haia = await Grocery.find({name:name});
+
+  if(haia){
+    socket.emit('foundgroc',haia);
+  }
+  else{
+    socket.emit('foundgroc','carieli');
+  }
+
 });
 
 });
