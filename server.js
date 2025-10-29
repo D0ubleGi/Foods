@@ -214,7 +214,8 @@ const grocis = new mongoose.Schema({
   dasaxeleba: {type:String, required:true},
   date: {type:Date, required:true},
   id: {type: String, required:true},
-  list: {type: Array, required:true}
+  list: {type: Array, required:true},
+  status: {type:String, required:true}
 },
 {timestamps:true});
 const Grocery = mongoose.model('Grocery',grocis);
@@ -1478,7 +1479,8 @@ if(!haia){
     dasaxeleba:dasa,
     date:data,
     id:id,
-    list:all
+    list:all,
+    status:"no"
   });
   await newi.save();
   console.log('saved!');
@@ -1497,6 +1499,15 @@ socket.on('getgrocs',async (name)=>{
     socket.emit('foundgroc','carieli');
   }
 
+});
+
+socket.on('donest',async (name,id,idi)=>{
+
+  await Grocery.updateOne(
+    {id:id, "list.id": idi},
+    { $set: { "list.$.status": "yes" }}   
+  );  
+console.log('updatedd');
 });
 
 });
