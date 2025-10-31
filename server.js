@@ -1540,7 +1540,7 @@ socket.on('updam',async (name,sax,id,idi,amount)=>{
 
   await Grocery.updateOne(
     {id:id,"list.id":idi},
-    {$set: {"list.$.raodenoba":amount}}
+    {$set: {"list.$.amount":amount}}
   );
 
   console.log('updated amount!');
