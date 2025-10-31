@@ -1553,6 +1553,7 @@ socket.on('updam',async (name,sax,id,idi,amount)=>{
 });
 
 socket.on('rrmv',async (name,id)=>{
+  
 await Grocery.deleteOne({id:id});
 
 console.log('deleted!!');
