@@ -1519,6 +1519,36 @@ socket.on('donest',async (name,id,idi)=>{
 console.log('updatedd');
 });
 
+socket.on('updnam',async (name,sax,id,idi,newnm)=>{
+
+  await Grocery.updateOne(
+    {id:id,"list.id":idi},
+    {$set: {"list.$.dasaxeleba":newnm}}
+  );
+
+  console.log('dasaxeleba updated!');
+
+  const haia = await Grocery.findOne({id:id});
+
+  socket.emit('getupgr',haia,id);
+
+});
+
+socket.on('updam',async (name,sax,id,idi,amount)=>{
+
+  await Grocery.updateOne(
+    {id:id,"list.id":idi},
+    {$set: {"list.$.amount":amount}}
+  );
+
+  console.log('updated amount!');
+
+  const haia = await Grocery.findOne({id:id});
+
+  socket.emit('getupgr',haia,id);
+
+});
+
 });
 server.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
