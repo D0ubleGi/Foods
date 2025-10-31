@@ -1517,6 +1517,14 @@ socket.on('donest',async (name,id,idi)=>{
     { $set: { "list.$.status": "yes" }}   
   );  
 console.log('updatedd');
+  const haiaa = await Grocery.find({name:name});
+
+  if(haiaa){
+    socket.emit('foundgroc',haiaa);
+  }
+  else{
+    socket.emit('foundgroc','carieli');
+  }
 });
 
 socket.on('updnam',async (name,sax,id,idi,newnm)=>{
@@ -1534,6 +1542,15 @@ socket.on('updnam',async (name,sax,id,idi,newnm)=>{
 
   socket.emit('getupgr',haia.list,haia.id);
 
+    const haiaa = await Grocery.find({name:name});
+
+  if(haiaa){
+    socket.emit('foundgroc',haiaa);
+  }
+  else{
+    socket.emit('foundgroc','carieli');
+  }
+
 });
 
 socket.on('updam',async (name,sax,id,idi,amount)=>{
@@ -1548,6 +1565,15 @@ socket.on('updam',async (name,sax,id,idi,amount)=>{
   const haia = await Grocery.findOne({id:id});
 
   socket.emit('getupgr',haia.list,haia.id);
+
+    const haiaa = await Grocery.find({name:name});
+
+  if(haiaa){
+    socket.emit('foundgroc',haiaa);
+  }
+  else{
+    socket.emit('foundgroc','carieli');
+  }
 
 });
 
