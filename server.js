@@ -1523,7 +1523,7 @@ socket.on('updnam',async (name,sax,id,idi,newnm)=>{
 
   await Grocery.updateOne(
     {id:id,"list.id":idi},
-    {$set: {"list.$.dasaxeleba":newnm}}
+    {$set: {"list.$.saxeli":newnm}}
   );
 
   console.log('dasaxeleba updated!');
@@ -1540,7 +1540,7 @@ socket.on('updam',async (name,sax,id,idi,amount)=>{
 
   await Grocery.updateOne(
     {id:id,"list.id":idi},
-    {$set: {"list.$.amount":amount}}
+    {$set: {"list.$.raodenoba":amount}}
   );
 
   console.log('updated amount!');
