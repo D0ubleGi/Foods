@@ -9,7 +9,6 @@ const { buffer } = require('stream/consumers');
 const axios = require("axios");
 const AWS = require('aws-sdk');
 const { stringify } = require('querystring');
-const { console } = require('inspector');
 require('dotenv').config({ path: './.env' });
 
 
