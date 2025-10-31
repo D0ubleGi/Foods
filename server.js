@@ -1532,7 +1532,7 @@ socket.on('updnam',async (name,sax,id,idi,newnm)=>{
 
   console.log(haia.dasaxeleba ,haia.list);
 
-  socket.emit('getupgr',haia.list);
+  socket.emit('getupgr',haia.list,haia.id);
 
 });
 
@@ -1547,7 +1547,7 @@ socket.on('updam',async (name,sax,id,idi,amount)=>{
 
   const haia = await Grocery.findOne({id:id});
 
-  socket.emit('getupgr',haia.id);
+  socket.emit('getupgr',haia.list,haia.id);
 
 });
 
