@@ -9,6 +9,7 @@ const { buffer } = require('stream/consumers');
 const axios = require("axios");
 const AWS = require('aws-sdk');
 const { stringify } = require('querystring');
+const { console } = require('inspector');
 require('dotenv').config({ path: './.env' });
 
 
@@ -1549,6 +1550,19 @@ socket.on('updam',async (name,sax,id,idi,amount)=>{
   const haia = await Grocery.findOne({id:id});
 
   socket.emit('getupgr',haia.list,haia.id);
+
+});
+
+socket.on('rrmv',async (name,id)=>{
+await Grocery.deleteOne({id:id});
+
+console.log('deleted!!');
+
+const haia = await Grocery.find({name:name});
+
+if(haia){
+    socket.emit('foundgroc',haia);
+}
 
 });
 
