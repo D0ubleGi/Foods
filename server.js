@@ -1486,6 +1486,15 @@ if(!haia){
   console.log('saved!');
 }
 console.log('done');
+
+  const haiaa = await Grocery.find({name:name});
+
+  if(haiaa){
+    socket.emit('foundgroc',haiaa);
+  }
+  else{
+    socket.emit('foundgroc','carieli');
+  }
 });
 
 socket.on('getgrocs',async (name)=>{
