@@ -1530,6 +1530,8 @@ socket.on('updnam',async (name,sax,id,idi,newnm)=>{
 
   const haia = await Grocery.findOne({id:id});
 
+  console.log(haia.dasaxeleba,haia.list.dasaxeleba);
+
   socket.emit('getupgr',haia,id);
 
 });
