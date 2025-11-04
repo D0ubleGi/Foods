@@ -1566,6 +1566,19 @@ if(haia){
 
 });
 
+socket.on('sjkl',async (name,nam)=>{
+
+  const ha = await Grocery.findOne({name:name,dasaxeleba:nam});
+
+  if(ha){
+    socket.emit('nadas','yes');
+  }
+  else{
+    socket.emit('nadas','no');
+  }
+
+});
+
 });
 server.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
