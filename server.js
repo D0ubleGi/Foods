@@ -1610,6 +1610,8 @@ socket.on('dder',async (name,nam)=>{
 
   const haia = Process.findOne({username:name,name:nam});
 
+  console.log(haia.username,haia.name,haia.status);
+
   if(haia){
     socket.emit('proce',haia.status,haia.username,haia.name);
   }
