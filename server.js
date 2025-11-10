@@ -1608,7 +1608,7 @@ socket.on('setpro',async (name,sax,status)=>{
 
 socket.on('dder',async (name,nam)=>{
 
-  const haia = Process.findOne({username:name,name:nam});
+  const haia = await Process.findOne({username:name,name:nam});
 
   console.log(haia.username,haia.name,haia.status);
   console.log(name,nam);
