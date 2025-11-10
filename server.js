@@ -220,6 +220,14 @@ const grocis = new mongoose.Schema({
 {timestamps:true});
 const Grocery = mongoose.model('Grocery',grocis);
 
+const proce = new mongoose.Schema({
+username:{type:String,required:true},
+name: {type:String,required:true},
+status: {type:String,required:true}
+},
+{timestamps:true});
+const Process = mongoose.model('Process',proce);
+
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST'],
@@ -1575,6 +1583,34 @@ socket.on('sjkl',async (name,nam)=>{
   }
   else{
     socket.emit('nadas','no');
+  }
+
+});
+
+socket.on('setpro',async (name,sax,status)=>{
+
+  const haia = await Process.findOne({name:sax,username:name});
+
+  if(!haia){
+    const tra = new Process({
+      username:name,
+      name:sax,
+      status:status
+    });
+    await tra.save();
+  }
+  else{
+    console.log('Already there');
+  }
+
+});
+
+socket.on('dder',async (name,nam)=>{
+
+  const haia = Process.findOne({username:name,name:nam});
+
+  if(haia){
+    socket.emit('proce',haia.status,haia.username,haia.name);
   }
 
 });
