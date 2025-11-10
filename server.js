@@ -1598,6 +1598,7 @@ socket.on('setpro',async (name,sax,status)=>{
       status:status
     });
     await tra.save();
+    console.log('added');
   }
   else{
     console.log('Already there');
@@ -1611,6 +1612,17 @@ socket.on('dder',async (name,nam)=>{
 
   if(haia){
     socket.emit('proce',haia.status,haia.username,haia.name);
+  }
+
+});
+
+socket.on('daitrgr',async (name)=>{
+
+  const haia = await Process.find({username:name});
+
+  if(haia){
+    socket.emit('getprocs1',haia);
+    console.log(haia.length);
   }
 
 });
