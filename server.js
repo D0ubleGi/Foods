@@ -1658,8 +1658,22 @@ socket.on('apdtmi',async (user,name,status)=>{
   const hai = await Process.findOne({username:user,name:name});
   const hui = await Process.find();
 
-  socket.emit('proce',hai.status,hai.username,hai.name);
-  socket.emit('getprocs1',hui);
+  io.emit('proce',hai.status,hai.username,hai.name);
+  io.emit('getprocs1',hui);
+
+});
+
+socket.on('delprocs',async (user,name)=>{
+
+  const haia = await Process.findOne({username:user,name:name});
+
+  if(haia){
+    await Process.deleteOne({username:user,name:name});
+  }
+
+  const huia = await Process.find();
+
+  io.emit('getprocs1',huia);
 
 });
 
