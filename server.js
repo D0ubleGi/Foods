@@ -1587,6 +1587,18 @@ socket.on('sjkl',async (name,nam)=>{
   }
 
 });
+socket.on('sjkl',async (name,nam)=>{
+
+  const ha = await Process.findOne({username:name,name:nam});
+
+  if(ha){
+    socket.emit('nadasa','yes');
+  }
+  else{
+    socket.emit('nadasa','no');
+  }
+
+});
 
 socket.on('setpro',async (name,sax,status)=>{
 
@@ -1622,7 +1634,7 @@ socket.on('dder',async (name,nam)=>{
 
 socket.on('daitrgr',async (name)=>{
 
-  const haia = await Process.find({username:name});
+  const haia = await Process.find();
 
   if(haia){
     socket.emit('getprocs1',haia);
@@ -1644,7 +1656,7 @@ socket.on('apdtmi',async (user,name,status)=>{
   }
 
   const hai = await Process.findOne({username:user,name:name});
-  const hui = await Process.find({username:user});
+  const hui = await Process.find();
 
   socket.emit('proce',hai.status,hai.username,hai.name);
   socket.emit('getprocs1',hui);
