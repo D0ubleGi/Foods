@@ -9,6 +9,7 @@ const { buffer } = require('stream/consumers');
 const axios = require("axios");
 const AWS = require('aws-sdk');
 const { stringify } = require('querystring');
+const { stat } = require('fs');
 require('dotenv').config({ path: './.env' });
 
 
@@ -1627,6 +1628,24 @@ socket.on('daitrgr',async (name)=>{
     socket.emit('getprocs1',haia);
     console.log(haia.length);
   }
+
+});
+
+socket.on('apdtmi',async (user,name,status)=>{
+
+  const haia = await Process.findOne({username:user,name:name});
+
+  if(haia){
+    await  Process.updateOne(
+        {username:user,name:name},
+        {$set:{status:status}}
+      );
+      console.log('updated!');
+  }
+
+  const hai = await Process.findOne({username:user,name:name});
+
+  socket.emit('proce',hai.status,hai.username,hai.name);
 
 });
 
