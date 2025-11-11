@@ -1644,8 +1644,10 @@ socket.on('apdtmi',async (user,name,status)=>{
   }
 
   const hai = await Process.findOne({username:user,name:name});
+  const hui = await Process.find({username:user});
 
   socket.emit('proce',hai.status,hai.username,hai.name);
+  socket.emit('getprocs1',hui);
 
 });
 
