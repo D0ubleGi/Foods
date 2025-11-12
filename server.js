@@ -1722,6 +1722,52 @@ socket.on('getallap',async ()=>{
 
 });
 
+socket.on('getallaps',async (term)=>{
+
+  if(allMeals.length===0){
+
+  const letters = "abcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (const letter of letters) {
+    const url = `https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`;
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      if (data.meals) {
+        allMeals.push(...data.meals);
+      }
+    } catch (err) {
+      console.error(`Error fetching letter "${letter}":`, err);
+    }
+  }
+  }
+
+  const uniqueMeals = Array.from(
+    new Map(allMeals.map((meal) => [meal.idMeal, meal])).values()
+  );
+
+  let hama=[];
+
+  for (let meal of uniqueMeals) {
+
+  if (!meal) continue; 
+
+    const name = meal.strMeal;
+    const categ = meal.strCategory;
+    const area = meal.strArea;
+    const image = meal.strMealThumb;
+    const idi = meal.idMeal;
+
+    if (meal.strMeal.toLowerCase().startsWith(term.toLowerCase())) {
+  hama.push({name:name,category:categ,area:area,image:image,id:idi});
+}
+
+  }
+
+      socket.emit('apidta',hama);
+
+});
+
 });
 server.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
