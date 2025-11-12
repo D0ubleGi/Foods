@@ -247,7 +247,9 @@ const io = new Server(server, {
   maxHttpBufferSize: 1e8  
 });
 
+let allMeals = [];
 let soketi = null;
+
 io.on('connection', async (socket) => {
   console.log('🟢 New user connected:', socket.id);
   socket.on('disconnect', () => {
@@ -1674,6 +1676,34 @@ socket.on('delprocs',async (user,name)=>{
   const huia = await Process.find();
 
   io.emit('getprocs1',huia);
+
+});
+
+socket.on('getallap',async ()=>{
+
+  if(allMeals.length===0){
+
+  const letters = "abcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (const letter of letters) {
+    const url = `https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`;
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      if (data.meals) {
+        allMeals.push(...data.meals);
+      }
+    } catch (err) {
+      console.error(`Error fetching letter "${letter}":`, err);
+    }
+  }
+  }
+
+  const uniqueMeals = Array.from(
+    new Map(allMeals.map((meal) => [meal.idMeal, meal])).values()
+  );
+
+      socket.emit('apidta',uniqueMeals);
 
 });
 
