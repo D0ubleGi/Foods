@@ -1703,7 +1703,22 @@ socket.on('getallap',async ()=>{
     new Map(allMeals.map((meal) => [meal.idMeal, meal])).values()
   );
 
-      socket.emit('apidta',uniqueMeals);
+  let hama=[];
+
+  for (let meal of uniqueMeals) {
+
+  if (!meal) continue; 
+
+    const name = meal.strMeal;
+    const categ = meal.strCategory;
+    const area = meal.strArea;
+    const image = meal.strMealThumb;
+    const idi = meal.idMeal;
+
+    hama.push({name:name,category:categ,area:area,image:image,id:idi});
+  }
+
+      socket.emit('apidta',hama);
 
 });
 
