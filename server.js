@@ -1758,13 +1758,19 @@ socket.on('getallaps',async (term,type)=>{
     const image = meal.strMealThumb;
     const idi = meal.idMeal;
 
-    if(type){
+    if(type==='category'){
   if (meal.strCategory.toLowerCase().startsWith(term.toLowerCase())) {
   hama.push({name:name,category:categ,area:area,image:image,id:idi});
 }
     }
 
-    else{
+    if(type==='country'){
+       if (meal.strArea.toLowerCase().startsWith(term.toLowerCase())) {
+  hama.push({name:name,category:categ,area:area,image:image,id:idi});
+}
+    }
+
+    if(type==='default'){
     if (meal.strMeal.toLowerCase().startsWith(term.toLowerCase())) {
   hama.push({name:name,category:categ,area:area,image:image,id:idi});
 }
